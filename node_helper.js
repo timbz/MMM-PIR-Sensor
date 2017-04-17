@@ -17,7 +17,7 @@ module.exports = NodeHelper.create({
 
   activateMonitor: function () {
     if (!this.screenOn) {
-      console.log("Activating monitor");
+      console.log((new Date()).toISOString() + " - Activating monitor");
       exec("/opt/vc/bin/tvservice -p", null);
       this.screenOn = true;
     }
@@ -25,7 +25,7 @@ module.exports = NodeHelper.create({
 
   deactivateMonitor: function () {
     if (this.screenOn) {
-      console.log("Deactivating monitor");
+      console.log((new Date()).toISOString() + " - Deactivating monitor");
       exec("/opt/vc/bin/tvservice -o", null);
       this.screenOn = false;
     }
