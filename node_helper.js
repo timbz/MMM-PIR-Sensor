@@ -11,7 +11,7 @@ module.exports = NodeHelper.create({
 
     const self = this;
     exec("/opt/vc/bin/tvservice -s").stdout.on('data', function(data) { 
-      this.screenOn = (data.indexOf('TV is off') == -1) ;
+      self.screenOn = (data.indexOf('TV is off') == -1) ;
     });
   },
 
