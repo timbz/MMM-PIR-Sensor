@@ -7,7 +7,12 @@ const exec = require('child_process').exec;
 module.exports = NodeHelper.create({
   start: function () {
     this.started = false;
-    this.screenOn = true
+    this.screenOn = true;
+
+    const self = this;
+    exec("/opt/vc/bin/tvservice -s").stdout.on('data', function(data) { 
+      this.screenOn = (data.indexOf('TV is off') == -1) ;
+    });
   },
 
   activateMonitor: function () {
