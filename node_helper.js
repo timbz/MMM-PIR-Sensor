@@ -18,7 +18,7 @@ module.exports = NodeHelper.create({
   activateMonitor: function () {
     if (!this.screenOn) {
       console.log((new Date()).toISOString() + " - Activating monitor");
-      exec("/opt/vc/bin/tvservice -p", null);
+      exec("/opt/vc/bin/tvservice -e \"DMT 81\"", null);
       this.screenOn = true;
     }
   },
@@ -43,12 +43,12 @@ module.exports = NodeHelper.create({
       //Detected movement
       this.pir.watch(function(err, value) {
         if (value == 1) {
-          self.sendSocketNotification("USER_PRESENCE", true);
+          //self.sendSocketNotification("USER_PRESENCE", true);
           clearTimeout(self.deactivateMonitorTimeout);
           self.activateMonitor();
         }
         else if (value == 0) {
-          self.sendSocketNotification("USER_PRESENCE", false);
+          //self.sendSocketNotification("USER_PRESENCE", false);
           self.deactivateMonitorTimeout = setTimeout(function() {
             self.deactivateMonitor();
           }, self.config.powerSavingDelay * 1000);
