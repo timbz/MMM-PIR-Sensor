@@ -1,12 +1,10 @@
 # MMM-PIR-Sensor
-This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror). It can monitor a [PIR motion](http://www.amazon.com/2013newestseller-HC-SR501-Pyroelectric-Infrared-Detector/dp/B00FDPO9B8) sensor and put your mirror to sleep if nobody uses it by turning off HDMI output or by turning off the mirror via a relay.
+This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror). It can monitor a [PIR motion](http://www.amazon.com/2013newestseller-HC-SR501-Pyroelectric-Infrared-Detector/dp/B00FDPO9B8) sensor and put your mirror to sleep if nobody uses it by turning off HDMI output.
 
 ## Installation
 1. Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/paviro/MMM-PIR-Sensor.git`. A new folder will appear navigate into it.
 2. Execute `npm install` to install the node dependencies.
 3. Add your user (`pi`?) to the `gpio group` by executing `sudo usermod -a -G gpio pi`.
-4. Execute `sudo chmod u+s /opt/vc/bin/tvservice && sudo chmod u+s /bin/chvt` to allow turning on/off the hdmi output.
-5. Reboot your Pi.
 
 ## Using the module
 
@@ -45,32 +43,10 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
-			<td><code>powerSaving</code></td>
-			<td>Should the monitor be turned off if no user is present? (via HDMI or relay)<br>
-				<br><b>Possible values:</b> <code>boolean</code>
-				<br><b>Default value:</b> <code>true</code>
-			</td>
-		</tr>
-		<tr>
 			<td><code>powerSavingDelay</code></td>
 			<td>Additional software side delay (in seconds) before the monitor will be turned off.<br>
 				<br><b>Possible values:</b> <code>int</code>
 				<br><b>Default value:</b> <code>0</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>relayPIN</code></td>
-			<td>If you want to use a relay to turn of the mirror provide the pin here. If no pin is provided HDMI is turned off instead.<br>
-				<br><b>Possible values:</b> <code>int</code>
-				<br><b>Default value:</b> <code>none</code>
-				<br><b>Note:</b> Please use BCM-numbering.
-			</td>
-		</tr>
-		<tr>
-			<td><code>relayOnState</code></td>
-			<td>GPIO-state your relay is turned on.<br>
-				<br><b>Possible values:</b> <code>int</code>
-				<br><b>Default value:</b> <code>1</code>
 			</td>
 		</tr>
 	</tbody>
@@ -78,9 +54,6 @@ The following properties can be configured:
 
 ## Developer Notes
 This module broadcasts a `USER_PRESENCE` notification with the payload beeing `true` or `false` you can use it to pause or disable your module.
-
-## Dependencies
-- [wiring-pi](https://www.npmjs.com/package/wiring-pi) (installed via `npm install`)
 
 The MIT License (MIT)
 =====================

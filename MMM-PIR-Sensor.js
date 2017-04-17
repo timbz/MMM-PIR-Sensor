@@ -1,11 +1,6 @@
-/* global Module */
-
-/* Magic Mirror
- * Module: MMM-PIR-Sensor
- *
- * By Paul-Vincent Roll http://paulvincentroll.com
- * MIT Licensed.
- */
+/*
+* MMM-PIR-Sensor
+*/
 
 Module.register('MMM-PIR-Sensor',{
 
@@ -13,10 +8,7 @@ Module.register('MMM-PIR-Sensor',{
 
 	defaults: {
 		sensorPIN: 22,
-		relayPIN: false,
-		powerSaving: true,
-		relayOnState: 1,
-		powerSavingDelay: 0
+		powerSavingDelay: 10
 	},
 
 	// Override socket notification handler.
