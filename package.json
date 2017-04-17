@@ -22,5 +22,5 @@
   "homepage": "https://github.com/timbz/MMM-PIR-Sensor#readme",
   "dependencies": {
     "onoff": "latest"
-  },
+  }
 }
