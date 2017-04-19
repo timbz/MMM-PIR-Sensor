@@ -8,6 +8,7 @@ module.exports = NodeHelper.create({
   start: function () {
     this.started = false;
     this.screenOn = true;
+    this.powerSaving = true;
 
     const self = this;
     exec("/opt/vc/bin/tvservice -s").stdout.on('data', function(data) { 
@@ -24,14 +25,13 @@ module.exports = NodeHelper.create({
   },
 
   deactivateMonitor: function () {
-    if (this.screenOn) {
+    if (this.powerSaving && this.screenOn) {
       console.log((new Date()).toISOString() + " - Deactivating monitor");
       exec("/opt/vc/bin/tvservice -o", null);
       this.screenOn = false;
     }
   },
 
-  // Subclass socketNotificationReceived received.
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'CONFIG' && !this.started) {
       const self = this;
@@ -43,12 +43,10 @@ module.exports = NodeHelper.create({
       //Detected movement
       this.pir.watch(function(err, value) {
         if (value == 1) {
-          //self.sendSocketNotification("USER_PRESENCE", true);
           clearTimeout(self.deactivateMonitorTimeout);
           self.activateMonitor();
         }
         else if (value == 0) {
-          //self.sendSocketNotification("USER_PRESENCE", false);
           self.deactivateMonitorTimeout = setTimeout(function() {
             self.deactivateMonitor();
           }, self.config.powerSavingDelay * 1000);
@@ -57,8 +55,11 @@ module.exports = NodeHelper.create({
 
       this.started = true;
 
-    } else if (notification === 'SCREEN_WAKEUP') {
-      this.activateMonitor();
+    } else if (notification === 'POWER_SAVING') {
+      this.powerSaving = payload;
+      if (!this.powerSaving) {
+        this.activateMonitor();
+      }
     }
   }
 
