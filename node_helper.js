@@ -58,7 +58,10 @@ module.exports = NodeHelper.create({
     } else if (notification === 'POWER_SAVING') {
       this.powerSaving = payload;
       if (!this.powerSaving) {
+        console.log("Disable power saving");
         this.activateMonitor();
+      } else {
+        console.log("Enable power saving");
       }
     }
   }

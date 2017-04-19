@@ -13,9 +13,9 @@ Module.register('MMM-PIR-Sensor',{
 
 	notificationReceived: function(notification, payload) {
 		if (notification === "RADIO_PLAYING") {
-			this.sendSocketNotification('POWER_SAVING', off);
+			this.sendSocketNotification('POWER_SAVING', false);
 		} else if (notification === "RADIO_STOPPED") {
-			this.sendSocketNotification('POWER_SAVING', off);
+			this.sendSocketNotification('POWER_SAVING', true);
 		}
 	},
 
