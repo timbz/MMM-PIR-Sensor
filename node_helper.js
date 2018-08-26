@@ -11,15 +11,15 @@ module.exports = NodeHelper.create({
     this.powerSaving = true;
 
     const self = this;
-    exec("/opt/vc/bin/tvservice -s").stdout.on('data', function(data) { 
-      self.screenOn = (data.indexOf('TV is off') == -1) ;
+    exec("/usr/bin/vcgencmd display_power").stdout.on('data', function(data) { 
+      self.screenOn = (data.indexOf('display_power=1') != -1) ;
     });
   },
 
   activateMonitor: function () {
     if (!this.screenOn) {
       console.log((new Date()).toISOString() + " - Activating monitor");
-      exec("/opt/vc/bin/tvservice -e \"DMT 81\"", null);
+      exec("/usr/bin/vcgencmd display_power 1", null);
       this.screenOn = true;
     }
   },
@@ -27,8 +27,16 @@ module.exports = NodeHelper.create({
   deactivateMonitor: function () {
     if (this.powerSaving && this.screenOn) {
       console.log((new Date()).toISOString() + " - Deactivating monitor");
-      exec("/opt/vc/bin/tvservice -o", null);
+      exec("/usr/bin/vcgencmd display_power 0", null);
       this.screenOn = false;
+    }
+  },
+
+  scheduleDeactivateMonitor: function () {
+    if (this.powerSaving) {
+      self.deactivateMonitorTimeout = setTimeout(function() {
+        self.deactivateMonitor();
+      }, self.config.powerSavingDelay * 1000);
     }
   },
 
@@ -47,9 +55,7 @@ module.exports = NodeHelper.create({
           self.activateMonitor();
         }
         else if (value == 0) {
-          self.deactivateMonitorTimeout = setTimeout(function() {
-            self.deactivateMonitor();
-          }, self.config.powerSavingDelay * 1000);
+          scheduleDeactivateMonitor();
         }
       });
 
@@ -59,9 +65,11 @@ module.exports = NodeHelper.create({
       this.powerSaving = payload;
       if (!this.powerSaving) {
         console.log("Disable power saving");
+        clearTimeout(self.deactivateMonitorTimeout);
         this.activateMonitor();
       } else {
         console.log("Enable power saving");
+        scheduleDeactivateMonitor();
       }
     }
   }
