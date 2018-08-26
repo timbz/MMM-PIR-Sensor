@@ -34,9 +34,9 @@ module.exports = NodeHelper.create({
 
   scheduleDeactivateMonitor: function () {
     if (this.powerSaving) {
-      self.deactivateMonitorTimeout = setTimeout(function() {
-        self.deactivateMonitor();
-      }, self.config.powerSavingDelay * 1000);
+      this.deactivateMonitorTimeout = setTimeout(function() {
+        this.deactivateMonitor();
+      }, this.config.powerSavingDelay * 1000);
     }
   },
 
