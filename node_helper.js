@@ -55,7 +55,7 @@ module.exports = NodeHelper.create({
           self.activateMonitor();
         }
         else if (value == 0) {
-          scheduleDeactivateMonitor();
+          self.scheduleDeactivateMonitor();
         }
       });
 
@@ -69,7 +69,7 @@ module.exports = NodeHelper.create({
         this.activateMonitor();
       } else {
         console.log("Enable power saving");
-        scheduleDeactivateMonitor();
+        this.scheduleDeactivateMonitor();
       }
     }
   }
