@@ -65,7 +65,7 @@ module.exports = NodeHelper.create({
       this.powerSaving = payload;
       if (!this.powerSaving) {
         console.log("Disable power saving");
-        clearTimeout(self.deactivateMonitorTimeout);
+        clearTimeout(this.deactivateMonitorTimeout);
         this.activateMonitor();
       } else {
         console.log("Enable power saving");
