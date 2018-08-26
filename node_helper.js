@@ -18,7 +18,7 @@ module.exports = NodeHelper.create({
 
   activateMonitor: function () {
     if (!this.screenOn) {
-      console.log((new Date()).toISOString() + " - Activating monitor");
+      console.log("Activating monitor");
       exec("/usr/bin/vcgencmd display_power 1", null);
       this.screenOn = true;
     }
@@ -26,7 +26,7 @@ module.exports = NodeHelper.create({
 
   deactivateMonitor: function () {
     if (this.powerSaving && this.screenOn) {
-      console.log((new Date()).toISOString() + " - Deactivating monitor");
+      console.log("Deactivating monitor");
       exec("/usr/bin/vcgencmd display_power 0", null);
       this.screenOn = false;
     }
@@ -59,6 +59,10 @@ module.exports = NodeHelper.create({
           self.scheduleDeactivateMonitor();
         }
       });
+
+      if (this.powerSaving) {
+        this.scheduleDeactivateMonitor();
+      }
 
       this.started = true;
 
